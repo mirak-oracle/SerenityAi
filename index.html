@@ -46,13 +46,37 @@
       background-color: #f1f1f1;
       color: #333;
     }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .link {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>SerenityAI - Your Mental Health Companion</h1>
-  <button id="start-listening">Start SerenityAI</button>
-  <div id="user-messages"></div>
-  <div id="bot-responses"></div>
+  <div class="container">
+    <h1>SerenityAI - Your Mental Health Companion</h1>
+    <button id="start-listening">Start SerenityAI</button>
+    <div id="user-messages"></div>
+    <div id="bot-responses"></div>
+  </div>
 
   <script>
     const recognition = new webkitSpeechRecognition();
@@ -132,7 +156,7 @@
 
     document.getElementById('start-listening').addEventListener('click', startListening);
   </script>
-  <p>Click <a href="https://groupshare.samsungcloud.com/invitation/notecoedit/dAq579Wno4">here</a> to access all the commands of SerenityAI.</p>
-  <p>Click <a href="https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go">here</a> to learn more about mental health counseling services.</p>
+  <p>Click <a class="link" href="https://groupshare.samsungcloud.com/invitation/notecoedit/dAq579Wno4">here</a> to access all the commands of SerenityAI.</p>
+  <p>Click <a class="link" href="https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go">here</a> to learn more about mental health counseling services.</p>
 </body>
 </html>
