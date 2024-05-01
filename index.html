@@ -94,6 +94,7 @@
     </div>
     <input type="text" id="user-input" placeholder="Type your message...">
     <button id="send-btn">Send</button>
+    <button id="start-listening">Start Listening</button>
     <p id="about">Learn more about SerenityAI <span id="about-link">here</span>.</p>
   </div>
 
@@ -103,21 +104,47 @@
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
     const aboutLink = document.getElementById('about-link');
+    const startListeningBtn = document.getElementById('start-listening');
 
-    sendBtn.addEventListener('click', sendMessage);
-    userInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        sendMessage();
-      }
-    });
-
-    function sendMessage() {
+    sendBtn.addEventListener('click', () => {
       const userMessage = userInput.value.trim();
       if (userMessage !== '') {
         appendMessage('user', userMessage);
         userInput.value = '';
         getBotResponse(userMessage);
       }
+    });
+
+    userInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const userMessage = userInput.value.trim();
+        if (userMessage !== '') {
+          appendMessage('user', userMessage);
+          userInput.value = '';
+          getBotResponse(userMessage);
+        }
+      }
+    });
+
+    startListeningBtn.addEventListener('click', startListening);
+
+    function startListening() {
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        displayUserMessage(transcript);
+        processCommand(transcript);
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+      };
+
+      recognition.start();
     }
 
     function getBotResponse(message) {
@@ -146,89 +173,6 @@
     aboutLink.addEventListener('click', () => {
       window.location.href = 'https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go';
     });
-  </script>
-
-  <script>
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      displayUserMessage(transcript);
-      processCommand(transcript);
-    };
-
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
-    };
-
-    function startListening() {
-      recognition.start();
-    }
-
-    function displayUserMessage(message) {
-      const userMessages = document.getElementById('user-messages');
-      userMessages.innerHTML += `<p class="message user-message">You: ${message}</p>`;
-    }
-
-    function displayBotResponse(response) {
-      const botResponses = document.getElementById('bot-responses');
-      botResponses.innerHTML += `<p class="message bot-message">SerenityAI: ${response}</p>`;
-      speak(response);
-    }
-
-    function processCommand(command) {
-      // Here are some example commands and responses
-      switch (command.toLowerCase()) {
-        case 'hello':
-          displayBotResponse('Hello! I am SerenityAI. How can I assist you today?');
-          break;
-        case 'what is the weather today':
-          displayBotResponse('The weather today is sunny with a high of 75 degrees Fahrenheit.');
-          break;
-        case 'tell me a joke':
-          displayBotResponse("Why don’t scientists trust atoms? Because they make up everything!");
-          break;
-        case 'how are you':
-          displayBotResponse("I'm doing well, thank you for asking!");
-          break;
-        case 'tell me about yourself':
-          displayBotResponse("I am SerenityAI, your mental health companion. I am here to provide personalized support, therapy, and resources tailored to your unique needs.");
-          break;
-        case 'what can you do':
-          displayBotResponse("I can offer guided relaxation techniques, daily affirmations, journaling prompts, breathing exercises, goal setting, and resource recommendations to support your mental well-being.");
-          break;
-        case 'start guided relaxation':
-          displayBotResponse("Let's start a guided relaxation session. Close your eyes, take a deep breath, and focus on relaxing each part of your body, starting from your toes and working your way up to your head.");
-          break;
-        case 'give me a daily affirmation':
-          displayBotResponse("You are worthy of love and happiness. Repeat this affirmation throughout the day to boost your confidence and self-esteem.");
-          break;
-        case 'suggest a journaling prompt':
-          displayBotResponse("Reflect on a recent challenge you faced and write about how you overcame it. Journaling can help you gain insights and perspective on your experiences.");
-          break;
-        case 'practice breathing exercises':
-          displayBotResponse("Let's do a calming breathing exercise. Inhale deeply through your nose for 4 seconds, hold your breath for 4 seconds, and exhale slowly through your mouth for 6 seconds. Repeat this cycle for several minutes.");
-          break;
-        case 'set a mental health goal':
-          displayBotResponse("Think about one aspect of your mental health you'd like to improve, such as managing stress or practicing self-care. Set a SMART goal (Specific, Measurable, Achievable, Relevant, Time-bound) to work towards achieving it.");
-          break;
-        case 'recommend mental health resources':
-          displayBotResponse("Here are some mental health resources you might find helpful: [Provide links or recommendations based on user's location]");
-          break;
-        
-      }
-    }
-
-    function speak(message) {
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = 'en-US';
-      speechSynthesis.speak(utterance);
-    }
-
-    document.getElementById('start-listening').addEventListener('click', startListening);
   </script>
 </body>
 </html>
