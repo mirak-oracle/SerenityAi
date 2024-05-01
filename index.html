@@ -1,94 +1,140 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>WebWise</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-@media only screen and (max-width: 600px) {
-    /* Adjust the styles for smaller screens */
-    footer {
-        text-align: center;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SerenityAI - Mental Health Companion</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
     }
-}
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
 
-        section {
-            padding: 20px;
-        }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
 
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
+    h1, h2 {
+      text-align: center;
+      color: #007bff;
+    }
 
-        footer p {
-            margin: 0;
-        }
+    .chat-container {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      overflow-y: auto;
+      max-height: 300px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
 
-        .social {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
+    .chat {
+      display: flex;
+      flex-direction: column;
+    }
 
-        .social li {
-            margin: 0 10px;
-        }
+    .user-message {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      align-self: flex-end;
+    }
 
-        .social a {
-            color: #fff;
-            font-size: 24px;
-        }
-    </style>
+    .bot-message {
+      background-color: #f1f1f1;
+      color: #333;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      align-self: flex-start;
+    }
+
+    #user-input {
+      width: calc(100% - 70px);
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+
+    #send-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+  </style>
 </head>
-
 <body>
-    <header>
-        <h1>Welcome to WebWise</h1>
-        <p>Your go-to destination for cutting-edge web solutions.</p>
-    </header>
+  <div class="container">
+    <h1>SerenityAI - Mental Health Companion</h1>
+    <div class="chat-container" id="chat-container">
+      <div class="chat" id="chat">
+        <p class="bot-message">Welcome! How can I assist you today?</p>
+      </div>
+    </div>
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button id="send-btn">Send</button>
+  </div>
 
-    <section>
-        <p>With a strong focus on app creation, development, eCommerce excellence, and many more, we are dedicated to transforming your digital aspirations into reality. Our seasoned team of tech enthusiasts is committed to delivering seamless and innovative app experiences, coupled with tailored eCommerce solutions that drive your business forward.</p>
-        <p>At WebWise, we harness the power of technology to craft user-friendly and visually appealing apps that resonate with your target audience. Our expertise extends to building robust eCommerce stores, ensuring that your online presence not only captivates customers but also generates tangible results. With a blend of creativity, skill, and a customer-centric approach, we are your partners in digital success.</p>
-        <p>Join us on this digital journey and discover the endless possibilities with WebWise. Let's elevate your online presence and take your business to new heights.</p>
-    </section>
+  <script>
+    // JavaScript code
+    const chat = document.getElementById('chat');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
 
-    <div class="contact">
-        <p>Contact us at <a href="mailto:miraklegroupinfo@gmail.com">miraklegroupinfo@gmail.com</a></p>
-        <p>Follow us on social media:</p>
-        <a href="https://www.instagram.com/mirakle
-.group">Instagram</a> |
-        <a href="https://www.facebook.com/mirakle_group">Facebook</a> |
-        <a href="https://www.twitter.com/mirakle_group">Twitter</a>
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    });
 
-    </div><p>Check back soon for updates and more information!</p>
+    function sendMessage() {
+      const userMessage = userInput.value.trim();
+      if (userMessage !== '') {
+        appendMessage('user', userMessage);
+        userInput.value = '';
+        getBotResponse(userMessage);
+      }
+    }
 
+    function getBotResponse(message) {
+      // Mock response for demonstration
+      let botResponse = '';
+      if (message.toLowerCase().includes('stress')) {
+        botResponse = 'When feeling stressed, deep breathing exercises can help. Let\'s take a moment to practice some deep breathing together. Inhale deeply through your nose for 4 seconds, hold for 7 seconds, then exhale slowly through your mouth for 8 seconds. Repeat this several times until you feel more relaxed.';
+      } else if (message.toLowerCase().includes('anxiety')) {
+        botResponse = 'Anxiety can be overwhelming, but grounding techniques can help bring you back to the present moment. Try focusing on your senses: name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste.';
+      } else {
+        botResponse = 'I\'m here to support you. Let\'s take a deep breath together. How are you feeling today?';
+      }
+      setTimeout(() => {
+        appendMessage('bot', botResponse);
+      }, 500);
+    }
 
-
-
-
-     <footer>
-        <p>©  Mirak Oracle-Mirakle Group. All rights reserved.
-        <p>   </p>
-
+    function appendMessage(sender, message) {
+      const messageElement = document.createElement('p');
+      messageElement.textContent = message;
+      messageElement.classList.add(sender + '-message');
+      chat.appendChild(messageElement);
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
 </body>
-
 </html>
