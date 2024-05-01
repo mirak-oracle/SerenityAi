@@ -77,6 +77,12 @@
       border-radius: 5px;
     }
 
+    #about-link {
+      color: #007bff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
@@ -89,6 +95,7 @@
     </div>
     <input type="text" id="user-input" placeholder="Type your message...">
     <button id="send-btn">Send</button>
+    <p id="about">Learn more about SerenityAI <span id="about-link">here</span>.</p>
   </div>
 
   <script>
@@ -96,6 +103,7 @@
     const chat = document.getElementById('chat');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
+    const aboutLink = document.getElementById('about-link');
 
     sendBtn.addEventListener('click', sendMessage);
     userInput.addEventListener('keydown', (event) => {
@@ -135,6 +143,10 @@
       chat.appendChild(messageElement);
       chat.scrollTop = chat.scrollHeight;
     }
+
+    aboutLink.addEventListener('click', () => {
+      window.location.href = 'https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go';
+    });
   </script>
 </body>
 </html>
