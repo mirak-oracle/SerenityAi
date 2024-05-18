@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SerenityAI - Your Mental Health Companion</title>
   <style>
-    /* Add your CSS styles for the interface here */
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
@@ -68,6 +67,40 @@
     .link:hover {
       text-decoration: underline;
     }
+
+    footer {
+      background: linear-gradient(45deg, #6D83F2, #89EAF4);
+      padding: 1rem 0;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      border-top: 1px solid #ccc;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 1rem;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    footer .holographic-text {
+      background: linear-gradient(45deg, #FF6F61, #FFC107, #6D83F2, #89EAF4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient 3s infinite;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -104,7 +137,6 @@
     }
 
     function processCommand(command) {
-      // Here are some example commands and responses
       switch (command.toLowerCase()) {
         case 'hello':
           displayBotResponse('Hello! I am SerenityAI. How can I assist you today?');
@@ -142,6 +174,21 @@
         case 'recommend mental health resources':
           displayBotResponse("Here are some mental health resources you might find helpful: [Click the second link below to begin with the process]");
           break;
+        case 'tips for managing stress':
+          displayBotResponse("Here are some tips for managing stress: 1. Practice mindfulness and meditation. 2. Exercise regularly. 3. Get enough sleep. 4. Connect with loved ones. 5. Set aside time for hobbies and relaxation.");
+          break;
+        case 'how to improve sleep quality':
+          displayBotResponse("To improve sleep quality: 1. Maintain a regular sleep schedule. 2. Create a relaxing bedtime routine. 3. Avoid caffeine and electronics before bed. 4. Make your sleep environment comfortable. 5. Manage stress and anxiety.");
+          break;
+        case 'how to boost my mood':
+          displayBotResponse("To boost your mood: 1. Engage in physical activity. 2. Spend time outdoors. 3. Connect with friends and family. 4. Practice gratitude. 5. Do something you enjoy or try a new hobby.");
+          break;
+        case 'what are the signs of burnout':
+          displayBotResponse("Signs of burnout include: 1. Feeling exhausted all the time. 2. Lack of motivation. 3. Decreased satisfaction and sense of accomplishment. 4. Changes in sleep and appetite. 5. Feeling cynical or detached.");
+          break;
+        case 'how to practice self-care':
+          displayBotResponse("To practice self-care: 1. Prioritize your physical health. 2. Set boundaries and say no when necessary. 3. Engage in activities that bring you joy. 4. Take breaks and rest. 5. Seek support when needed.");
+          break;
         default:
           displayBotResponse("I'm sorry, I didn't understand that command.");
           break;
@@ -158,5 +205,9 @@
   </script>
   
   <p>Click <a class="link" href="https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go">here</a> to learn more about mental health counseling services.</p>
+
+  <footer>
+    <p class="holographic-text">&copy;  SerenityAI. WebWise-Mirak Oracle, part of Mirakle Group. All rights reserved.</p>
+  </footer>
 </body>
 </html>
