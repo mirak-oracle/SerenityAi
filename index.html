@@ -15,83 +15,36 @@
     </script>
 
     <!-- Custom styles for the page -->
-    <style>
+       <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
         }
-        h1 {
-            text-align: center;
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #6D83F2, #89EAF4);
         }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        #user-messages, #bot-responses {
-            margin-top: 20px;
-        }
+
         .message {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            @apply p-4 mb-4 rounded-lg shadow-md;
         }
+
         .user-message {
-            background-color: #007bff;
-            color: #fff;
+            @apply bg-blue-500 text-white;
         }
+
         .bot-message {
-            background-color: #f1f1f1;
-            color: #333;
+            @apply bg-gray-100 text-gray-800;
         }
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            flex: 1;
-        }
-        p {
-            margin: 0;
-        }
-        .link {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .link:hover {
-            text-decoration: underline;
-        }
-        footer {
-            background: linear-gradient(45deg, #6D83F2, #89EAF4);
-            padding: 1rem 0;
-            color: #fff;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            border-top: 1px solid #ccc;
-            margin-top: auto;
-        }
-        footer p {
-            margin: 0;
-            font-size: 1rem;
-            text-shadow: 1px 1px 2px #000;
-        }
-        footer .holographic-text {
+
+        .holographic-text {
             background: linear-gradient(45deg, #FF6F61, #FFC107, #6D83F2, #89EAF4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradient 3s infinite;
         }
+
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -99,16 +52,21 @@
         }
     </style>
 </head>
-<link rel="icon" type="image/x-icon" href="/Screenshot_20240511_231153_Chrome.jpg">
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="gradient-bg py-6 shadow-lg">
+        <h1 class="text-3xl font-bold text-center text-white">SerenityAI - Your Mental Health Companion</h1>
+    </header>
 
-<body>
-    <div class="container">
-        <h1>SerenityAI - Your Mental Health Companion</h1>
-        <button id="start-listening">Start SerenityAI</button>
-        <div id="user-messages"></div>
-        <div id="bot-responses"></div>
-    </div>
-
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-2xl p-8">
+            <button id="start-listening" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Start SerenityAI
+            </button>
+            <div id="user-messages" class="mt-8"></div>
+            <div id="bot-responses" class="mt-8"></div>
+        </div>
+    </main>
+    
     <!-- JavaScript for voice recognition and bot interaction -->
     <script>
         const recognition = new webkitSpeechRecognition();
