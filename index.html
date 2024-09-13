@@ -3,131 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SerenityAI - Your Mental Health Companion</title>
-
-  <!-- Tailwind CSS CDN -->
+  <title>SerenityAI - Mental Health Companion</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Tag Manager -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-ZY9S9E5VGC');
-  </script>
-  
-  <!-- Custom styles -->
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .holographic-text {
-      background: linear-gradient(45deg, #FF6F61, #FFC107, #6D83F2, #89EAF4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradient 3s infinite;
-    }
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-  </style>
 </head>
+<body class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white min-h-screen flex flex-col">
 
-<body class="bg-gray-100">
   <!-- Header -->
-  <div class="bg-blue-600 py-6">
-    <h1 class="text-center text-white text-3xl font-bold">SerenityAI - Your Mental Health Companion</h1>
-  </div>
+  <header class="bg-white shadow-lg p-6 text-center">
+    <h1 class="text-3xl font-bold text-gray-900">SerenityAI - Your Mental Health Companion</h1>
+    <nav class="mt-4">
+      <button id="chatTab" class="text-lg border-b-2 border-indigo-500 mr-4">Chat</button>
+      <button id="resourcesTab" class="text-lg">Resources</button>
+    </nav>
+  </header>
 
-  <!-- Main Container -->
-  <div class="container mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-    <!-- Tabbed Interface -->
-    <div class="flex justify-center mb-5">
-      <button id="tab-chat" class="px-4 py-2 bg-blue-600 text-white rounded-md mx-2">Chat</button>
-      <button id="tab-resources" class="px-4 py-2 bg-blue-600 text-white rounded-md mx-2">Mental Health Resources</button>
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto p-6" id="mainContent">
+    <!-- Chat Window (Default Tab) -->
+    <div id="chatWindow" class="hidden">
+      <div class="h-96 overflow-auto bg-white shadow-lg rounded-lg p-4">
+        <div id="chatMessages">
+          <!-- Messages will appear here -->
+        </div>
+      </div>
+      <div class="flex mt-4">
+        <input type="text" id="chatInput" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Type your message...">
+        <button id="sendMessage" class="bg-indigo-500 p-2 rounded-r-lg text-white">Send</button>
+      </div>
     </div>
 
-    <!-- Chat Area -->
-    <div id="chat-section" class="hidden">
-      <button id="start-listening" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg mb-5">Start SerenityAI</button>
-      <div id="user-messages" class="mb-4"></div>
-      <div id="bot-responses" class="mb-4"></div>
-      <input type="text" id="text-input" placeholder="Type a message..." class="w-full border px-4 py-2 rounded-lg focus:outline-none" />
-    </div>
-
-    <!-- Resources Area -->
-    <div id="resources-section" class="hidden">
-      <h2 class="text-xl font-semibold mb-4">Mental Health Resources</h2>
-      <ul>
-        <li><a href="https://www.betterhelp.com" class="text-blue-500 underline">BetterHelp</a></li>
-        <li><a href="https://www.talkspace.com" class="text-blue-500 underline">Talkspace</a></li>
-        <li><a href="https://www.mhanational.org/" class="text-blue-500 underline">Mental Health America</a></li>
-        <!-- Add more resources here -->
+    <!-- Resources Section -->
+    <div id="resourceSection" class="hidden">
+      <h2 class="text-2xl font-bold mb-4">Mental Health Resources</h2>
+      <ul class="list-disc pl-6">
+        <li><a href="https://www.betterhelp.com" class="text-indigo-400 hover:underline">BetterHelp</a></li>
+        <li><a href="https://www.talkspace.com" class="text-indigo-400 hover:underline">Talkspace</a></li>
+        <li><a href="https://www.mhanational.org" class="text-indigo-400 hover:underline">Mental Health America</a></li>
+        <li><a href="https://www.nami.org" class="text-indigo-400 hover:underline">NAMI</a></li>
       </ul>
     </div>
-  </div>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-blue-700 text-white py-4 mt-10 text-center">
-    <p class="holographic-text">Your Mental Health Journey Starts Here</p>
+  <footer class="bg-gray-900 text-white py-4 text-center">
+    <p>&copy; 2024 SerenityAI. All rights reserved.</p>
+    <p>Follow us on 
+      <a href="#" class="ml-1 text-indigo-400">Twitter</a>, 
+      <a href="#" class="ml-1 text-indigo-400">LinkedIn</a>
+    </p>
   </footer>
 
-  <!-- JS Script -->
   <script>
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    // JavaScript to toggle between tabs and handle chat functionality
 
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      processCommand(transcript);
-    };
+    // Get elements
+    const chatTab = document.getElementById('chatTab');
+    const resourcesTab = document.getElementById('resourcesTab');
+    const chatWindow = document.getElementById('chatWindow');
+    const resourceSection = document.getElementById('resourceSection');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessageButton = document.getElementById('sendMessage');
+    const chatMessages = document.getElementById('chatMessages');
 
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
-    };
+    // Set initial state (show chat by default)
+    chatWindow.classList.remove('hidden');
 
-    function startListening() {
-      recognition.start();
-    }
-
-    document.getElementById('start-listening').addEventListener('click', startListening);
-
-    function displayBotResponse(response) {
-      const botResponses = document.getElementById('bot-responses');
-      botResponses.innerHTML += `<p class="message bot-message bg-gray-200 p-4 rounded-lg mb-4">${response}</p>`;
-    }
-
-    function processCommand(command) {
-      switch (command.toLowerCase()) {
-        case 'hello':
-          displayBotResponse('Hello! I am SerenityAI. How can I assist you today?');
-          break;
-        // Add more cases for commands
-        default:
-          displayBotResponse('I did not understand that.');
-      }
-    }
-
-    // Tab switching logic
-    document.getElementById('tab-chat').addEventListener('click', () => {
-      document.getElementById('chat-section').classList.remove('hidden');
-      document.getElementById('resources-section').classList.add('hidden');
+    // Tab switching functionality
+    chatTab.addEventListener('click', () => {
+      chatWindow.classList.remove('hidden');
+      resourceSection.classList.add('hidden');
+      chatTab.classList.add('border-b-2', 'border-indigo-500');
+      resourcesTab.classList.remove('border-b-2', 'border-indigo-500');
     });
 
-    document.getElementById('tab-resources').addEventListener('click', () => {
-      document.getElementById('resources-section').classList.remove('hidden');
-      document.getElementById('chat-section').classList.add('hidden');
+    resourcesTab.addEventListener('click', () => {
+      resourceSection.classList.remove('hidden');
+      chatWindow.classList.add('hidden');
+      resourcesTab.classList.add('border-b-2', 'border-indigo-500');
+      chatTab.classList.remove('border-b-2', 'border-indigo-500');
+    });
+
+    // Chat message sending functionality
+    sendMessageButton.addEventListener('click', () => {
+      const message = chatInput.value.trim();
+      if (message) {
+        // Add user message to chat window
+        const userMessage = document.createElement('div');
+        userMessage.classList.add('p-2', 'rounded-lg', 'my-2', 'bg-blue-500', 'text-white');
+        userMessage.textContent = message;
+        chatMessages.appendChild(userMessage);
+
+        // Simulate AI response
+        setTimeout(() => {
+          const aiResponse = document.createElement('div');
+          aiResponse.classList.add('p-2', 'rounded-lg', 'my-2', 'bg-gray-200', 'text-gray-800');
+          aiResponse.textContent = "AI Response here...";
+          chatMessages.appendChild(aiResponse);
+        }, 1000);
+
+        // Clear the input
+        chatInput.value = '';
+      }
     });
   </script>
 </body>
