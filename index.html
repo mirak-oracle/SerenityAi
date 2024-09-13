@@ -1,110 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SerenityAI - Mental Health Companion</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SerenityAI - Your Mental Health Companion</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-ZY9S9E5VGC');
+    </script>
+
+    <!-- Custom styles for the page -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #user-messages, #bot-responses {
+            margin-top: 20px;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .bot-message {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+        p {
+            margin: 0;
+        }
+        .link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background: linear-gradient(45deg, #6D83F2, #89EAF4);
+            padding: 1rem 0;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-top: 1px solid #ccc;
+            margin-top: auto;
+        }
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px #000;
+        }
+        footer .holographic-text {
+            background: linear-gradient(45deg, #FF6F61, #FFC107, #6D83F2, #89EAF4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 3s infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white min-h-screen flex flex-col">
+<link rel="icon" type="image/x-icon" href="/Screenshot_20240511_231153_Chrome.jpg">
 
-  <!-- Header -->
-  <header class="bg-white shadow-lg p-6 text-center">
-    <h1 class="text-3xl font-bold text-gray-900">SerenityAI - Your Mental Health Companion</h1>
-    <nav class="mt-4">
-      <button id="chatTab" class="text-lg border-b-2 border-indigo-500 mr-4">Chat</button>
-      <button id="resourcesTab" class="text-lg">Resources</button>
-    </nav>
-  </header>
-
-  <!-- Main Content -->
-  <main class="flex-grow container mx-auto p-6" id="mainContent">
-    <!-- Chat Window (Default Tab) -->
-    <div id="chatWindow" class="hidden">
-      <div class="h-96 overflow-auto bg-white shadow-lg rounded-lg p-4">
-        <div id="chatMessages">
-          <!-- Messages will appear here -->
-        </div>
-      </div>
-      <div class="flex mt-4">
-        <input type="text" id="chatInput" class="w-full p-2 rounded-l-lg border border-gray-300" placeholder="Type your message...">
-        <button id="sendMessage" class="bg-indigo-500 p-2 rounded-r-lg text-white">Send</button>
-      </div>
+<body>
+    <div class="container">
+        <h1>SerenityAI - Your Mental Health Companion</h1>
+        <button id="start-listening">Start SerenityAI</button>
+        <div id="user-messages"></div>
+        <div id="bot-responses"></div>
     </div>
 
-    <!-- Resources Section -->
-    <div id="resourceSection" class="hidden">
-      <h2 class="text-2xl font-bold mb-4">Mental Health Resources</h2>
-      <ul class="list-disc pl-6">
-        <li><a href="https://www.betterhelp.com" class="text-indigo-400 hover:underline">BetterHelp</a></li>
-        <li><a href="https://www.talkspace.com" class="text-indigo-400 hover:underline">Talkspace</a></li>
-        <li><a href="https://www.mhanational.org" class="text-indigo-400 hover:underline">Mental Health America</a></li>
-        <li><a href="https://www.nami.org" class="text-indigo-400 hover:underline">NAMI</a></li>
-      </ul>
-    </div>
-  </main>
+    <!-- JavaScript for voice recognition and bot interaction -->
+    <script>
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-4 text-center">
-    <p>&copy; 2024 SerenityAI. All rights reserved.</p>
-    <p>Follow us on 
-      <a href="#" class="ml-1 text-indigo-400">Twitter</a>, 
-      <a href="#" class="ml-1 text-indigo-400">LinkedIn</a>
-    </p>
-  </footer>
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            processCommand(transcript);
+        };
 
-  <script>
-    // JavaScript to toggle between tabs and handle chat functionality
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+        };
 
-    // Get elements
-    const chatTab = document.getElementById('chatTab');
-    const resourcesTab = document.getElementById('resourcesTab');
-    const chatWindow = document.getElementById('chatWindow');
-    const resourceSection = document.getElementById('resourceSection');
-    const chatInput = document.getElementById('chatInput');
-    const sendMessageButton = document.getElementById('sendMessage');
-    const chatMessages = document.getElementById('chatMessages');
+        function startListening() {
+            recognition.start();
+        }
 
-    // Set initial state (show chat by default)
-    chatWindow.classList.remove('hidden');
+        function displayBotResponse(response) {
+            const botResponses = document.getElementById('bot-responses');
+            botResponses.innerHTML += `<p class="message bot-message">SerenityAI: ${response}</p>`;
+            speak(response);
+        }
 
-    // Tab switching functionality
-    chatTab.addEventListener('click', () => {
-      chatWindow.classList.remove('hidden');
-      resourceSection.classList.add('hidden');
-      chatTab.classList.add('border-b-2', 'border-indigo-500');
-      resourcesTab.classList.remove('border-b-2', 'border-indigo-500');
-    });
+        function processCommand(command) {
+            switch (command.toLowerCase()) {
+                case 'hello':
+                    displayBotResponse('Hello! I am SerenityAI. How can I assist you today?');
+                    break;
+                case 'what is the weather today':
+                    displayBotResponse('The weather today is sunny with a high of 75 degrees Fahrenheit.');
+                    break;
+                case 'tell me a joke':
+                    displayBotResponse("Why don’t scientists trust atoms? Because they make up everything!");
+                    break;
+                case 'how are you':
+                    displayBotResponse("I'm doing well, thank you for asking!");
+                    break;
+                case 'tell me about yourself':
+                    displayBotResponse("I am SerenityAI, your mental health companion.");
+                    break;
+                case 'what can you do':
+                    displayBotResponse("I offer relaxation, breathing exercises, daily affirmations, and more.");
+                    break;
+                // Add more commands as needed
+                default:
+                    displayBotResponse("I'm sorry, I didn't understand that command.");
+                    break;
+            }
+        }
 
-    resourcesTab.addEventListener('click', () => {
-      resourceSection.classList.remove('hidden');
-      chatWindow.classList.add('hidden');
-      resourcesTab.classList.add('border-b-2', 'border-indigo-500');
-      chatTab.classList.remove('border-b-2', 'border-indigo-500');
-    });
+        function speak(message) {
+            const utterance = new SpeechSynthesisUtterance(message);
+            utterance.lang = 'en-US';
+            speechSynthesis.speak(utterance);
+        }
 
-    // Chat message sending functionality
-    sendMessageButton.addEventListener('click', () => {
-      const message = chatInput.value.trim();
-      if (message) {
-        // Add user message to chat window
-        const userMessage = document.createElement('div');
-        userMessage.classList.add('p-2', 'rounded-lg', 'my-2', 'bg-blue-500', 'text-white');
-        userMessage.textContent = message;
-        chatMessages.appendChild(userMessage);
+        document.getElementById('start-listening').addEventListener('click', startListening);
+    </script>
 
-        // Simulate AI response
-        setTimeout(() => {
-          const aiResponse = document.createElement('div');
-          aiResponse.classList.add('p-2', 'rounded-lg', 'my-2', 'bg-gray-200', 'text-gray-800');
-          aiResponse.textContent = "AI Response here...";
-          chatMessages.appendChild(aiResponse);
-        }, 1000);
-
-        // Clear the input
-        chatInput.value = '';
-      }
-    });
-  </script>
+    <footer>
+        <p class="holographic-text">&copy; SerenityAI. WebWise-Mirak Oracle, part of Mirakle Group. All rights reserved.</p>
+    </footer>
 </body>
 </html>
+   
