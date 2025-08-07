@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SerenityAI - Your Mental Health Companion</title>
-
+    
     <!-- Google Tag Manager -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY9S9E5VGC"></script>
     <script>
@@ -13,135 +13,376 @@
         gtag('js', new Date());
         gtag('config', 'G-ZY9S9E5VGC');
     </script>
-
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
-        .float { animation: float 3s ease-in-out infinite; }
-
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(79, 70, 229, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(79, 70, 229, 0.6); }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .float { 
+            animation: float 3s ease-in-out infinite; 
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .slide-in {
+            animation: slideInUp 0.6s ease-out forwards;
+        }
+        
         .gradient-text {
-            background: linear-gradient(45deg, #4F46E5, #06B6D4);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        /* Loading screen */
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark-mode {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            color: white;
+        }
+        
+        .dark-mode .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .message {
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .bot-message {
+            background: #f3f4f6;
+            color: #374151;
+            margin-right: auto;
+        }
+        
+        .dark-mode .bot-message {
+            background: #374151;
+            color: #f9fafb;
+        }
+        
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .command-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid #667eea;
+        }
+        
+        .command-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dark-mode .command-card {
+            background: #374151;
+            color: white;
+        }
+        
         #loading-screen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: white;
-            z-index: 100;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
         }
-
-        /* Dark mode */
-        .dark-mode {
-            background: #1a202c;
-            color: white;
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans transition duration-300">
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen transition-all duration-500">
     <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed top-0 left-0 w-full h-full bg-white flex justify-center items-center">
-        <span class="text-indigo-500 text-3xl font-bold animate-pulse">Loading...</span>
+    <div id="loading-screen">
+        <div class="text-center">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <h2 class="text-white text-2xl font-semibold">Loading SerenityAI...</h2>
+            <p class="text-white/80 mt-2">Preparing your mental wellness companion</p>
+        </div>
     </div>
 
     <!-- Navbar -->
-    <nav class="bg-white dark:bg-gray-900 shadow-lg transition duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-            <span class="text-2xl font-bold gradient-text">SerenityAI</span>
-
-            <!-- Dark Mode Toggle -->
-            <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition duration-300">
-                <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m8-8h2m-16 0H2m15.364-7.364l1.414 1.414m-12.728 0l1.414-1.414m0 12.728l-1.414-1.414m12.728 0l-1.414 1.414" />
-                </svg>
-                <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-8.66l-1.414-1.414M4.754 4.754l1.414 1.414M19 12h1m-16 0H3m12.66-4.66l-1.414 1.414M4.754 19.246l1.414-1.414M16.66 16.66l1.414 1.414M6.34 6.34L4.926 4.926" />
-                </svg>
-            </button>
+    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">SerenityAI</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300">
+                        <svg id="sun-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moon-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-4 py-16">
-        <header class="text-center mb-16">
-            <h1 class="text-5xl font-bold gradient-text mb-4">SerenityAI</h1>
-            <p class="text-2xl text-indigo-600 dark:text-gray-300 mb-8">Your Personal Mental Health Companion</p>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <header class="text-center mb-16 slide-in">
+            <div class="float mb-8">
+                <div class="w-24 h-24 gradient-bg rounded-full mx-auto flex items-center justify-center mb-6 pulse-glow">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <h1 class="text-6xl font-bold gradient-text mb-6">SerenityAI</h1>
+            <p class="text-2xl text-gray-600 dark:text-gray-300 mb-4">Your Personal Mental Health Companion</p>
+            <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+                Experience personalized mental wellness support with AI-powered guidance, 24/7 availability, and evidence-based techniques.
+            </p>
         </header>
 
-        <!-- Chatbox -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-4xl mx-auto mb-16 transition duration-300">
-            <div class="flex justify-center mb-8">
-                <button id="start-listening" class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold py-4 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 float text-lg">
-                    Start SerenityAI Session
+        <!-- Chat Interface -->
+        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-2xl p-8 max-w-5xl mx-auto mb-16 slide-in">
+            <div class="text-center mb-8">
+                <button id="start-listening" class="gradient-bg text-white font-semibold py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300 float text-lg">
+                    🎤 Start SerenityAI Session
                 </button>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Click the button and speak your command</p>
             </div>
-
-            <div id="conversation" class="space-y-4 bg-gray-50 dark:bg-gray-700 p-6 rounded-xl">
+            
+            <div id="conversation" class="bg-gray-50/50 dark:bg-gray-700/50 backdrop-blur-sm p-6 rounded-2xl min-h-[200px] max-h-[400px] overflow-y-auto">
+                <div class="text-center text-gray-500 dark:text-gray-400 py-8">
+                    <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    <p class="text-lg font-medium">Ready to help with your mental wellness journey</p>
+                    <p class="text-sm mt-2">Start a conversation by clicking the microphone button above</p>
+                </div>
                 <div id="user-messages"></div>
                 <div id="bot-responses"></div>
             </div>
         </div>
-    </div>
 
-     <div id="features" class="mt-20 text-center">
-            <h2 class="text-3xl font-semibold text-indigo-700 mb-12">How SerenityAI Empowers Your Mental Wellness</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div class="bg-white p-8 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-indigo-500 mx-auto mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <h3 class="text-2xl font-semibold mb-4">24/7 Support</h3>
-                    <p class="text-gray-600">Always here to listen and provide guidance, anytime you need it.</p>
+        <!-- Available Commands -->
+        <div class="max-w-6xl mx-auto mb-16 slide-in">
+            <h2 class="text-3xl font-bold text-center gradient-text mb-8">Available Voice Commands</h2>
+            <div class="command-grid">
+                <div class="command-card">
+                    <h3 class="font-semibold text-lg mb-2">🧘 Relaxation & Mindfulness</h3>
+                    <ul class="text-sm space-y-1 text-gray-600 dark:text-gray-300">
+                        <li>• "Start guided relaxation"</li>
+                        <li>• "Practice breathing exercises"</li>
+                        <li>• "Begin meditation session"</li>
+                        <li>• "Progressive muscle relaxation"</li>
+                    </ul>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-indigo-500 mx-auto mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                    </svg>
-                    <h3 class="text-2xl font-semibold mb-4">Personalized Insights</h3>
-                    <p class="text-gray-600">Tailored strategies to help you manage stress and boost your mental wellbeing.</p>
+                
+                <div class="command-card">
+                    <h3 class="font-semibold text-lg mb-2">💭 Mental Health Support</h3>
+                    <ul class="text-sm space-y-1 text-gray-600 dark:text-gray-300">
+                        <li>• "Give me a daily affirmation"</li>
+                        <li>• "Tips for managing stress"</li>
+                        <li>• "How to boost my mood"</li>
+                        <li>• "Anxiety coping strategies"</li>
+                    </ul>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-indigo-500 mx-auto mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    <h3 class="text-2xl font-semibold mb-4">Progress Tracking</h3>
-                    <p class="text-gray-600">Monitor your mental health journey and celebrate your improvements.</p>
+                
+                <div class="command-card">
+                    <h3 class="font-semibold text-lg mb-2">📝 Self-Care & Wellness</h3>
+                    <ul class="text-sm space-y-1 text-gray-600 dark:text-gray-300">
+                        <li>• "Suggest a journaling prompt"</li>
+                        <li>• "How to practice self-care"</li>
+                        <li>• "Set a mental health goal"</li>
+                        <li>• "Sleep hygiene tips"</li>
+                    </ul>
+                </div>
+                
+                <div class="command-card">
+                    <h3 class="font-semibold text-lg mb-2">🆘 Crisis & Resources</h3>
+                    <ul class="text-sm space-y-1 text-gray-600 dark:text-gray-300">
+                        <li>• "Crisis helpline"</li>
+                        <li>• "Find a therapist"</li>
+                        <li>• "Mental health apps"</li>
+                        <li>• "Emergency support"</li>
+                    </ul>
+                </div>
+                
+                <div class="command-card">
+                    <h3 class="font-semibold text-lg mb-2">🎯 Goal Setting & Growth</h3>
+                    <ul class="text-sm space-y-1 text-gray-600 dark:text-gray-300">
+                        <li>• "Create wellness plan"</li>
+                        <li>• "Track my progress"</li>
+                        <li>• "Motivation boost"</li>
+                        <li>• "Habit building tips"</li>
+                    </ul>
+                </div>
+                
+                <div class="command-card">
+                    <h3 class="font-semibold text-lg mb-2">🔗 Quick Access</h3>
+                    <ul class="text-sm space-y-1 text-gray-600 dark:text-gray-300">
+                        <li>• "Open BetterHelp"</li>
+                        <li>• "Open Talkspace"</li>
+                        <li>• "Open NAMI"</li>
+                        <li>• "Mental health resources"</li>
+                    </ul>
                 </div>
             </div>
-        
-    
+        </div>
+
+        <!-- Features Section -->
+        <div id="features" class="mb-16 slide-in">
+            <h2 class="text-4xl font-bold text-center gradient-text mb-12">How SerenityAI Empowers Your Mental Wellness</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-lg transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center">24/7 Support</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-center">Always here to listen and provide guidance, anytime you need it. No appointments necessary.</p>
+                </div>
+                
+                <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-lg transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Personalized Insights</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-center">Tailored strategies and evidence-based techniques to help you manage stress and boost your mental wellbeing.</p>
+                </div>
+                
+                <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-lg transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Progress Tracking</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-center">Monitor your mental health journey, set goals, and celebrate your improvements along the way.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg font-medium mb-2">SerenityAI, mirakle group. All rights reserved.</p>
+            <p class="text-white/80 text-sm">
+                Click <a href="https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go" 
+                   class="text-white underline hover:text-blue-200 transition-colors duration-300" target="_blank">
+                   here
+                </a> to learn more about mental health counseling services.
+            </p>
+        </div>
+    </footer>
+
     <!-- JavaScript -->
     <script>
         // Hide loading screen after page loads
-        window.onload = function() {
-            document.getElementById("loading-screen").style.display = "none";
-        };
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById("loading-screen").style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById("loading-screen").style.display = "none";
+                }, 500);
+            }, 1500);
+        });
 
         // Dark Mode Toggle
         const themeToggle = document.getElementById("theme-toggle");
         const body = document.body;
-        const darkIcon = document.getElementById("dark-icon");
-        const lightIcon = document.getElementById("light-icon");
+        const sunIcon = document.getElementById("sun-icon");
+        const moonIcon = document.getElementById("moon-icon");
 
         // Check user's preference
         if (localStorage.getItem("theme") === "dark") {
             body.classList.add("dark-mode");
-            darkIcon.classList.remove("hidden");
-        } else {
-            lightIcon.classList.remove("hidden");
+            sunIcon.classList.add("hidden");
+            moonIcon.classList.remove("hidden");
         }
 
         // Toggle function
@@ -149,162 +390,244 @@
             if (body.classList.contains("dark-mode")) {
                 body.classList.remove("dark-mode");
                 localStorage.setItem("theme", "light");
-                darkIcon.classList.add("hidden");
-                lightIcon.classList.remove("hidden");
+                sunIcon.classList.remove("hidden");
+                moonIcon.classList.add("hidden");
             } else {
                 body.classList.add("dark-mode");
                 localStorage.setItem("theme", "dark");
-                lightIcon.classList.add("hidden");
-                darkIcon.classList.remove("hidden");
+                sunIcon.classList.add("hidden");
+                moonIcon.classList.remove("hidden");
             }
         });
-    </script>
-</body>
-</html>
 
-</div>
-
-        </div>
-
-    <footer class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white py-6 mt-12">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-2">&copy;  SerenityAI. All rights reserved.</p>
-            <p>
-                
-
-    
-                    </html>
-
-    
-    <!-- JavaScript for voice recognition and bot interaction -->
-    <script>
-        const recognition = new webkitSpeechRecognition();
+        // Speech Recognition
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'en-US';
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
+            displayUserMessage(transcript);
             processCommand(transcript);
         };
 
         recognition.onerror = (event) => {
             console.error('Speech recognition error:', event.error);
+            displayBotResponse("Sorry, I couldn't hear you clearly. Please try again.");
         };
 
         function startListening() {
             recognition.start();
+            document.getElementById('start-listening').textContent = '🎤 Listening...';
+            setTimeout(() => {
+                document.getElementById('start-listening').textContent = '🎤 Start SerenityAI Session';
+            }, 3000);
+        }
+
+        function displayUserMessage(message) {
+            const conversation = document.getElementById('conversation');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            messageDiv.textContent = `You: ${message}`;
+            conversation.appendChild(messageDiv);
+            conversation.scrollTop = conversation.scrollHeight;
         }
 
         function displayBotResponse(response) {
-            const botResponses = document.getElementById('bot-responses');
-            botResponses.innerHTML += `<p class="message bot-message">SerenityAI: ${response}</p>`;
+            const conversation = document.getElementById('conversation');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            messageDiv.innerHTML = `<strong>SerenityAI:</strong> ${response}`;
+            conversation.appendChild(messageDiv);
+            conversation.scrollTop = conversation.scrollHeight;
             speak(response);
         }
 
         function processCommand(command) {
-            switch (command.toLowerCase()) {
-                case 'hello':
-                    displayBotResponse('Hello! I am SerenityAI. How can I assist you today?');
-                    break;
-                case 'what is the weather today':
-                    displayBotResponse('The weather today is sunny with a high of 75 degrees Fahrenheit.');
-                    break;
-                case 'tell me a joke':
-                    displayBotResponse("Why don’t scientists trust atoms? Because they make up everything!");
-                    break;
-                case 'how are you':
-                    displayBotResponse("I'm doing well, thank you for asking!");
-                    break;
-                case 'tell me about yourself':
-                    displayBotResponse("I am SerenityAI, your mental health companion.");
-                    break;
-                case 'what can you do':
-                    displayBotResponse("I offer relaxation, breathing exercises, daily affirmations, and more.");
-                    break;
-                    case 'start guided relaxation':
-      displayBotResponse("Let's start a guided relaxation session. Close your eyes, take a deep breath, and focus on relaxing each part of your body, starting from your toes and working your way up to your head.");
-      break;
-    case 'give me a daily affirmation':
-      displayBotResponse("You are worthy of love and happiness. Repeat this affirmation throughout the day to boost your confidence and self-esteem.");
-      break;
-    case 'suggest a journaling prompt':
-      displayBotResponse("Reflect on a recent challenge you faced and write about how you overcame it. Journaling can help you gain insights and perspective on your experiences.");
-      break;
-    case 'practice breathing exercises':
-      displayBotResponse("Let's do a calming breathing exercise. Inhale deeply through your nose for 4 seconds, hold your breath for 4 seconds, and exhale slowly through your mouth for 6 seconds. Repeat this cycle for several minutes.");
-      break;
-                    case 'set a mental health goal':
-      displayBotResponse("Think about one aspect of your mental health you'd like to improve, such as managing stress or practicing self-care. Set a SMART goal (Specific, Measurable, Achievable, Relevant, Time-bound) to work towards achieving it.");
-      break;
-    case 'recommend mental health resources':
-      displayBotResponse("Here are some mental health resources you might find helpful:\n- [BetterHelp](https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go)\n- [Talkspace](https://www.talkspace.com/)\n- [Mental Health America](https://www.mhanational.org/)\n- [National Alliance on Mental Illness (NAMI)](https://www.nami.org/)\n- [SAMHSA’s National Helpline](https://www.samhsa.gov/find-help/national-helpline)");
-      break;
-                    case 'tips for managing stress':
-      displayBotResponse("Here are some tips for managing stress: 1. Practice mindfulness and meditation. 2. Exercise regularly. 3. Get enough sleep. 4. Connect with loved ones. 5. Set aside time for hobbies and relaxation.");
-      break;
-    case 'how to improve sleep quality':
-      displayBotResponse("To improve sleep quality: 1. Maintain a regular sleep schedule. 2. Create a relaxing bedtime routine. 3. Avoid caffeine and electronics before bed. 4. Make your sleep environment comfortable. 5. Manage stress and anxiety.");
-      break;
-    case 'how to boost my mood':
-      displayBotResponse("To boost your mood: 1. Engage in physical activity. 2. Spend time outdoors. 3. Connect with friends and family. 4. Practice gratitude. 5. Do something you enjoy or try a new hobby.");
-      break;
-                    case 'what are the signs of burnout':
-      displayBotResponse("Signs of burnout include: 1. Feeling exhausted all the time. 2. Lack of motivation. 3. Decreased satisfaction and sense of accomplishment. 4. Changes in sleep and appetite. 5. Feeling cynical or detached.");
-      break;
-    case 'how to practice self-care':
-      displayBotResponse("To practice self-care: 1. Prioritize your physical health. 2. Set boundaries and say no when necessary. 3. Engage in activities that bring you joy. 4. Take breaks and rest. 5. Seek support when needed.");
-      break;
-    case 'crisis helpline':
-      displayBotResponse("If you are in crisis, please contact the National Suicide Prevention Lifeline at 1-800-273-TALK (8255) or text HOME to 741741 to reach a trained crisis counselor.");
-      break;
-                    case 'find a therapist':
-      displayBotResponse("You can find a therapist through the following resources:\n- [Therapy for Black Girls](https://therapyforblackgirls.com/)\n- [Psychology Today](https://www.psychologytoday.com/us/therapists)\n- [GoodTherapy](https://www.goodtherapy.org/)\n- [Open Path Collective](https://openpathcollective.org/)\n- [Zencare](https://zencare.co/)");
-      break;
-    case 'mental health apps':
-      displayBotResponse("Here are some mental health apps that can help:\n- [Headspace](https://www.headspace.com/)\n- [Calm](https://www.calm.com/)\n- [Moodfit](https://www.getmoodfit.com/)\n- [Happify](https://www.happify.com/)\n- [Insight Timer](https://insighttimer.com/)");
-      break;
-    case 'open betterhelp':
-      openURL("https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go");
-      break;
-                    case 'open talkspace':
-      openURL("https://www.talkspace.com/");
-      break;
-    case 'open mental health america':
-      openURL("https://www.mhanational.org/");
-      break;
-    case 'open nami':
-      openURL("https://www.nami.org/");
-      break;
-    case 'open samhsa':
-      openURL("https://www.samhsa.gov/find-help/national-helpline");
-      break;
-    default:
-      displayBotResponse("I'm sorry, I didn't understand that command.");
-      break;
-  
-                
-
+            const cmd = command.toLowerCase();
+            
+            // Basic greetings and interactions
+            if (cmd.includes('hello') || cmd.includes('hi')) {
+                displayBotResponse('Hello! I am SerenityAI, your mental health companion. How can I support your wellness journey today?');
+            }
+            else if (cmd.includes('how are you')) {
+                displayBotResponse("I'm doing well, thank you for asking! I'm here and ready to support your mental wellness. How are you feeling today?");
+            }
+            else if (cmd.includes('tell me about yourself')) {
+                displayBotResponse("I am SerenityAI, your personal mental health companion. I'm designed to provide 24/7 support, guidance, and evidence-based techniques to help you manage stress, anxiety, and improve your overall mental wellbeing.");
+            }
+            else if (cmd.includes('what can you do')) {
+                displayBotResponse("I can help you with relaxation techniques, breathing exercises, daily affirmations, stress management, mood boosting strategies, sleep improvement tips, crisis support, and connecting you with mental health resources. Just speak your needs!");
+            }
+            
+            // Relaxation and mindfulness
+            else if (cmd.includes('start guided relaxation') || cmd.includes('guided relaxation')) {
+                displayBotResponse("Let's begin a guided relaxation session. Find a comfortable position, close your eyes, and take a deep breath. Now, starting from your toes, consciously relax each part of your body. Feel the tension melting away from your feet, up through your legs, your torso, arms, and finally your head. Take slow, deep breaths and stay in this peaceful state for a few minutes.");
+            }
+            else if (cmd.includes('practice breathing exercises') || cmd.includes('breathing exercise')) {
+                displayBotResponse("Let's practice the 4-7-8 breathing technique. Inhale quietly through your nose for 4 counts, hold your breath for 7 counts, then exhale completely through your mouth for 8 counts. This helps activate your body's relaxation response. Let's do this together - breathe in... 2, 3, 4... hold... 2, 3, 4, 5, 6, 7... and exhale... 2, 3, 4, 5, 6, 7, 8. Repeat this cycle 3-4 times.");
+            }
+            else if (cmd.includes('begin meditation session') || cmd.includes('meditation')) {
+                displayBotResponse("Let's start a 5-minute mindfulness meditation. Sit comfortably with your back straight. Close your eyes and focus on your breath. Notice the sensation of air entering and leaving your nostrils. When your mind wanders, gently bring your attention back to your breath. Remember, there's no 'perfect' meditation - just be present with whatever arises.");
+            }
+            else if (cmd.includes('progressive muscle relaxation')) {
+                displayBotResponse("Progressive muscle relaxation helps release physical tension. Start by tensing your toes for 5 seconds, then release and notice the relaxation. Move up to your calves, thighs, abdomen, hands, arms, shoulders, and face. Tense each muscle group for 5 seconds, then release. This technique helps you recognize the difference between tension and relaxation.");
+            }
+            
+            // Mental health support
+            else if (cmd.includes('give me a daily affirmation') || cmd.includes('affirmation')) {
+                const affirmations = [
+                    "I am worthy of love, happiness, and inner peace.",
+                    "I have the strength to overcome any challenge that comes my way.",
+                    "I choose to focus on what I can control and let go of what I cannot.",
+                    "I am growing stronger and more resilient every day.",
+                    "I deserve to take care of my mental health and wellbeing.",
+                    "I am enough, exactly as I am right now.",
+                    "I trust in my ability to navigate life's ups and downs.",
+                    "I choose to be kind and compassionate with myself today."
+                ];
+                const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+                displayBotResponse(`Here's your daily affirmation: "${randomAffirmation}" Take a moment to really feel these words and believe in their truth.`);
+            }
+            else if (cmd.includes('tips for managing stress') || cmd.includes('manage stress')) {
+                displayBotResponse("Here are evidence-based stress management techniques: 1) Practice deep breathing or meditation for 10 minutes daily. 2) Exercise regularly - even a 10-minute walk helps. 3) Maintain a consistent sleep schedule. 4) Connect with supportive friends and family. 5) Set realistic goals and boundaries. 6) Practice gratitude by writing down 3 things you're thankful for each day. 7) Limit caffeine and alcohol. 8) Try progressive muscle relaxation before bed.");
+            }
+            else if (cmd.includes('how to boost my mood') || cmd.includes('boost mood')) {
+                displayBotResponse("Here are natural mood boosters: 1) Get 15-20 minutes of sunlight daily. 2) Listen to uplifting music or your favorite songs. 3) Practice gratitude - write down 3 good things from your day. 4) Do something kind for someone else. 5) Engage in physical activity you enjoy. 6) Connect with a friend or loved one. 7) Practice mindfulness or meditation. 8) Try creative activities like drawing, writing, or crafting. 9) Spend time in nature. 10) Celebrate small wins and accomplishments.");
+            }
+            else if (cmd.includes('anxiety coping strategies') || cmd.includes('anxiety help')) {
+                displayBotResponse("Here are effective anxiety coping strategies: 1) Use the 5-4-3-2-1 grounding technique: name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, 1 you taste. 2) Practice box breathing: inhale for 4, hold for 4, exhale for 4, hold for 4. 3) Challenge anxious thoughts - ask 'Is this thought realistic?' 4) Use positive self-talk. 5) Progressive muscle relaxation. 6) Limit caffeine. 7) Stay present - anxiety often focuses on future 'what-ifs'. Remember, anxiety is temporary and manageable.");
+            }
+            
+            // Self-care and wellness
+            else if (cmd.includes('suggest a journaling prompt') || cmd.includes('journaling')) {
+                const prompts = [
+                    "What are three things that brought you joy today, no matter how small?",
+                    "Describe a challenge you overcame recently and what you learned from it.",
+                    "What would you tell your younger self about handling difficult emotions?",
+                    "Write about a person who has positively impacted your life and why.",
+                    "What are you most grateful for right now, and how does it make you feel?",
+                    "Describe your ideal day for mental wellness - what would it include?",
+                    "What negative thought pattern would you like to change, and what positive thought could replace it?",
+                    "Write about a time when you showed yourself compassion during a difficult moment."
+                ];
+                const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+                displayBotResponse(`Here's your journaling prompt: "${randomPrompt}" Take 10-15 minutes to write freely about this topic. Remember, there are no wrong answers - just let your thoughts flow.`);
+            }
+            else if (cmd.includes('how to practice self-care') || cmd.includes('self care')) {
+                displayBotResponse("Self-care is essential for mental health. Here are practical ways to practice it: 1) Set boundaries - learn to say no to protect your energy. 2) Prioritize sleep - aim for 7-9 hours nightly. 3) Nourish your body with healthy foods and stay hydrated. 4) Move your body in ways that feel good. 5) Practice mindfulness or meditation. 6) Engage in hobbies you enjoy. 7) Connect with supportive people. 8) Take breaks from social media and news. 9) Practice saying kind things to yourself. 10) Seek professional help when needed.");
+            }
+            else if (cmd.includes('set a mental health goal') || cmd.includes('mental health goal')) {
+                displayBotResponse("Let's create a SMART mental health goal. Think about one area you'd like to improve: stress management, sleep, exercise, mindfulness, or social connections. Make it Specific (what exactly?), Measurable (how will you track it?), Achievable (realistic for you), Relevant (meaningful to your life), and Time-bound (when will you achieve it?). For example: 'I will practice 10 minutes of meditation daily for the next 2 weeks to reduce my stress levels.' What area would you like to focus on?");
+            }
+            else if (cmd.includes('sleep hygiene tips') || cmd.includes('improve sleep')) {
+                displayBotResponse("Good sleep hygiene is crucial for mental health: 1) Keep a consistent sleep schedule, even on weekends. 2) Create a relaxing bedtime routine 1 hour before sleep. 3) Keep your bedroom cool, dark, and quiet. 4) Avoid screens 1 hour before bed - try reading instead. 5) Limit caffeine after 2 PM and avoid alcohol before bed. 6) Get natural sunlight exposure during the day. 7) Exercise regularly, but not close to bedtime. 8) If you can't sleep within 20 minutes, get up and do a quiet activity until sleepy.");
+            }
+            
+            // Crisis and resources
+            else if (cmd.includes('crisis helpline') || cmd.includes('emergency support')) {
+                displayBotResponse("If you're in crisis, please reach out immediately: 🆘 National Suicide Prevention Lifeline: 988 or 1-800-273-8255 🆘 Crisis Text Line: Text HOME to 741741 🆘 National Domestic Violence Hotline: 1-800-799-7233 🆘 SAMHSA National Helpline: 1-800-662-4357. Remember, you're not alone, and help is available 24/7. These trained professionals are here to support you.");
+            }
+            else if (cmd.includes('find a therapist') || cmd.includes('therapist')) {
+                displayBotResponse("Finding the right therapist is important. Here are trusted resources: 🔍 Psychology Today (psychologytoday.com) - search by location, insurance, and specialty. 🔍 GoodTherapy (goodtherapy.org) - comprehensive therapist directory. 🔍 Therapy for Black Girls (therapyforblackgirls.com) - culturally competent care. 🔍 Open Path Collective (openpathcollective.org) - affordable therapy options. 🔍 Your insurance provider's website for in-network therapists. Remember, it's okay to interview therapists to find the right fit!");
+            }
+            else if (cmd.includes('mental health apps') || cmd.includes('apps')) {
+                displayBotResponse("Here are evidence-based mental health apps: 📱 Headspace - meditation and mindfulness. 📱 Calm - sleep stories, meditation, relaxation. 📱 Insight Timer - free meditation library. 📱 Moodfit - mood tracking and mental fitness. 📱 Happify - science-based activities for happiness. 📱 PTSD Coach - for trauma symptoms. 📱 MindShift - anxiety management. 📱 Sanvello - anxiety and depression support. Many offer free content with premium options available.");
+            }
+            
+            // Goal setting and growth
+            else if (cmd.includes('create wellness plan') || cmd.includes('wellness plan')) {
+                displayBotResponse("Let's create your personalized wellness plan: 1) Assess your current mental health - what's working and what needs attention? 2) Set 2-3 specific, achievable goals (e.g., 'meditate 10 minutes daily'). 3) Choose activities you enjoy: exercise, creative hobbies, social connections. 4) Schedule self-care time like any important appointment. 5) Identify your support system. 6) Plan for challenges - what will you do on difficult days? 7) Track your progress weekly. 8) Celebrate small wins! Remember, wellness is a journey, not a destination.");
+            }
+            else if (cmd.includes('track my progress') || cmd.includes('progress tracking')) {
+                displayBotResponse("Tracking progress helps maintain motivation! Here's how: 📊 Keep a mood journal - rate your mood daily 1-10 and note what influenced it. 📊 Use a habit tracker for wellness activities (meditation, exercise, sleep). 📊 Weekly check-ins - what went well? What was challenging? 📊 Take photos or videos of yourself to notice positive changes. 📊 Celebrate small wins - they add up to big changes! 📊 Be patient and kind with yourself - progress isn't always linear. What specific area would you like to start tracking?");
+            }
+            else if (cmd.includes('motivation boost') || cmd.includes('motivation')) {
+                displayBotResponse("Here's your motivation boost! 🌟 Remember why you started this journey - your mental health matters. 🌟 You've overcome challenges before, and you can do it again. 🌟 Every small step counts - progress isn't always visible immediately. 🌟 You're investing in the most important relationship - the one with yourself. 🌟 It's okay to have difficult days - they don't erase your progress. 🌟 You deserve happiness, peace, and wellbeing. 🌟 Tomorrow is a new opportunity to care for yourself. You've got this! 💪");
+            }
+            else if (cmd.includes('habit building tips') || cmd.includes('build habits')) {
+                displayBotResponse("Building healthy habits takes time - here's how to succeed: 🎯 Start small - 2 minutes of meditation is better than none. 🎯 Stack habits - attach new habits to existing ones. 🎯 Be consistent - same time, same place when possible. 🎯 Track your progress visually - use a calendar or app. 🎯 Prepare for obstacles - have a backup plan for busy days. 🎯 Focus on one habit at a time. 🎯 Celebrate small wins to reinforce the behavior. 🎯 Be patient - it takes 21-66 days to form a habit. What healthy habit would you like to build?");
+            }
+            
+            // Quick access commands
+            else if (cmd.includes('open betterhelp')) {
+                displayBotResponse("Opening BetterHelp - professional online therapy platform...");
+                openURL("https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go");
+            }
+            else if (cmd.includes('open talkspace')) {
+                displayBotResponse("Opening Talkspace - online therapy and counseling...");
+                openURL("https://www.talkspace.com/");
+            }
+            else if (cmd.includes('open mental health america')) {
+                displayBotResponse("Opening Mental Health America - mental health resources and advocacy...");
+                openURL("https://www.mhanational.org/");
+            }
+            else if (cmd.includes('open nami')) {
+                displayBotResponse("Opening NAMI (National Alliance on Mental Illness) - support and education...");
+                openURL("https://www.nami.org/");
+            }
+            else if (cmd.includes('open samhsa')) {
+                displayBotResponse("Opening SAMHSA's National Helpline - treatment referral and information...");
+                openURL("https://www.samhsa.gov/find-help/national-helpline");
+            }
+            else if (cmd.includes('mental health resources') || cmd.includes('recommend resources')) {
+                displayBotResponse("Here are comprehensive mental health resources: 🌐 BetterHelp & Talkspace - online therapy platforms. 🌐 Mental Health America - screening tools and resources. 🌐 NAMI - support groups and education. 🌐 SAMHSA National Helpline: 1-800-662-4357. 🌐 Crisis Text Line: Text HOME to 741741. 🌐 National Suicide Prevention Lifeline: 988. 🌐 Psychology Today - find local therapists. 🌐 Open Path Collective - affordable therapy. Would you like me to open any of these resources for you?");
+            }
+            
+            // Additional helpful commands
+            else if (cmd.includes('tell me a joke')) {
+                const jokes = [
+                    "Why don't scientists trust atoms? Because they make up everything!",
+                    "What do you call a bear with no teeth? A gummy bear!",
+                    "Why did the scarecrow win an award? He was outstanding in his field!",
+                    "What do you call a fake noodle? An impasta!",
+                    "Why don't eggs tell jokes? They'd crack each other up!"
+                ];
+                const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+                displayBotResponse(randomJoke + " 😄 Laughter is great medicine for the soul!");
+            }
+            else if (cmd.includes('what is the weather')) {
+                displayBotResponse("I don't have access to current weather data, but I encourage you to step outside and notice the weather mindfully. Whether it's sunny, rainy, or cloudy, each type of weather can offer its own form of peace and reflection. How does today's weather make you feel?");
+            }
+            else {
+                displayBotResponse("I didn't quite understand that command. Try saying things like 'start guided relaxation', 'give me a daily affirmation', 'tips for managing stress', or 'find a therapist'. You can also say 'what can you do' to hear all my capabilities. How can I support your mental wellness today?");
             }
         }
-function openURL(url) {
-  window.open(url, '_blank');
-}
 
-// Example of opening a URL:
-// openURL("https://www.example.com");
+        function openURL(url) {
+            window.open(url, '_blank');
+        }
 
-    function speak(message) {
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = 'en-US';
-      speechSynthesis.speak(utterance);
-    }
+        function speak(message) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(message);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
 
-    document.getElementById('start-listening').addEventListener('click', startListening);
-  </script>
-            
-  <p>Click <a class="text-blue-600 hover:text-blue-800 underline decoration-blue-400 decoration-2 underline-offset-2 transition-colors duration-300" href="https://www.betterhelp.com/get-started/?utm_source=AdWords&utm_medium=Search_PPC_m&utm_term=online+counseling+free_b&utm_content=136971342842&network=g&placement=&target=&matchtype=b&utm_campaign=16805123991&ad_type=text&adposition=&kwd_id=kwd-689501355&gad_source=1&gclid=CjwKCAjwrcKxBhBMEiwAIVF8rBTndvM_DhzaO08Bn2H7q3pKzu4IA906KiQv4l16anzvjb_EODVExRoC0XcQAvD_BwE&not_found=1&gor=start-go">here</a> to learn more about mental health counseling services.</p>
-  
+        document.getElementById('start-listening').addEventListener('click', startListening);
+
+        // Add slide-in animation to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('slide-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.slide-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
-
